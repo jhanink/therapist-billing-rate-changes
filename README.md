@@ -9,7 +9,7 @@ cat samples/2016_May.csv > combined.csv && cat samples/2016_June.csv >> combined
 ### run
 ``` sh
 # save results
-time node index.js > output.json
+time node index.js | python -m json.tool > combined.json
 
 # pretty print results
 node index.js | python -m json.tool | more
