@@ -3,9 +3,7 @@
 ### install
 ``` sh
 npm install
-cat samples/2016_May.csv > combined.csv
-cat samples/2016_June.csv >> combined.csv
-
+cat samples/2016_May.csv > combined.csv && cat samples/2016_June.csv >> combined.csv
 ```
 
 ### run
