@@ -3,12 +3,14 @@
 ### install
 ``` sh
 npm install
-cat samples/2016/May.csv > combined.csv && cat samples/2016/June.csv >> combined.csv
+cd samples/2016
+cat $(ls -a | grep -E '^\d') > ../../combined.csv
 ```
 
 ### run
 ``` sh
-# save results
+# in the project root directory, check that combined.csv is present
+# then run the script
 time node index.js | python -m json.tool > combined.json
 ```
 
