@@ -12,7 +12,7 @@ csv.fromStream(stream, {headers:true})
       const dateNormalized = moment(data.Date, 'MMM DD, YYYY').subtract(1,'months').endOf('month').format('YYYY-MM-DD');
       rates.push({name: name, start:dateNormalized, end:null, rate:data.TherapistRate});
       if (prevRate) {
-        prevDate.end = dateNormalized;
+        prevRate.end = dateNormalized;
         therapistsWithRateChanges[`${name} - ${sf_id}`] = rates;
       }
     }
