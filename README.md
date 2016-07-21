@@ -7,5 +7,5 @@ $ npm install
 $ time node index.js > output.json
 
 # pretty print results
-$ time node index.js | python -m json.tool
+$ node index.js | python -m json.tool | more
 ```
