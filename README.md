@@ -5,6 +5,7 @@
 npm install
 cd samples/2016
 cat $(ls -a | grep -E '^\d') > ../../combined.csv
+cd ../../
 ```
 
 ### run
