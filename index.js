@@ -5,8 +5,7 @@ csv.fromStream(stream, {headers:true})
   .on("data", function(data) {
     let sf_id = data.TherapistSalesforceId, therapist = therapists[data.TherapistSalesforceId];
     let name = `${data.TherapistFirst} ${data.TherapistLast}`;
-    if (sf_id === 'TherapistSalesforceId') return; // header row;
-    numRecords ++;
+    if (sf_id === 'TherapistSalesforceId') {/*header row*/return} else {numRecords++}
     let rates = therapists[sf_id] = therapist?therapist:[];
     let prevRate = rates.slice(-1)[0];
     if (!rates.length || (prevRate && prevRate.rate !== data.TherapistRate)) {
