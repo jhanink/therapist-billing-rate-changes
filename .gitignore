@@ -7,5 +7,5 @@ node_modules
 *.swp
 *.swo
 *~
-combined.csv
+combined.json
 work
