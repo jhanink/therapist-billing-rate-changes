@@ -33,7 +33,7 @@ do
   _COUNT=$((_COUNT + 1));
 done &
 trap "kill $!" EXIT  #Die with parent if we die prematurely
-time node --max-old-space-size=4096 index.js | python -m json.tool > combined.json
-echo "" && echo "→ Results" && head -7 combined.json | tail -4 && echo "" && echo "Done."
+time node --max-old-space-size=4096 index.js | python -m json.tool > rates.json
+echo "" && echo "→ Results" && head -7 rates.json | tail -4 && echo "" && echo "Done."
 kill $! && trap " " EXIT
 

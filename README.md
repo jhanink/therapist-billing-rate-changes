@@ -29,7 +29,7 @@ $ ./run.sh work/learning_timesheets
 * sorts combined.csv on the first column (date-time)
 * adds column header names as a row to the beginning of combined.csv
 * runs the node script to process the rates and rate changes
-* outputs combined.json and prints a summary
+* outputs rates.json and prints a summary
 
 ## Sample run output
 
