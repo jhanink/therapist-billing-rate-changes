@@ -20,11 +20,15 @@ csv.fromStream(stream, {headers:true})
   .on("end", function(data) {
     console.log(JSON.stringify({
       results: {
-        numTherapistsWithRateChanges: Object.keys(therapistsWithRateChanges).length,
-        numTherapists: Object.keys(therapists).length,
-        numRecords: numRecords,
-        therapistsWithRateChanges: therapistsWithRateChanges,
-        allTherapists: therapists,
+        summary: {
+          numTherapistsWithRateChanges: Object.keys(therapistsWithRateChanges).length,
+          numTherapists: Object.keys(therapists).length,
+          numRecords: numRecords,
+        },
+        values: {
+          therapistsWithRateChanges: therapistsWithRateChanges,
+          allTherapists: therapists,
+        }
       }
     }));
   });
