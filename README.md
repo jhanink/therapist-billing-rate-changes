@@ -7,46 +7,27 @@ npm install
 
 ## Run the script
 
-### run the script using a subset of 2016 timesheet data
+### specify the directory holding the csv files 
 ``` sh
-# equivalent of prepare, run, view sections below
-./run.sh samples/2016
+./run.sh work/learning_timesheets
 ```
 
-## Manual steps
-
-### prepare
-``` sh
-cd samples/2016
-cat $(ls -a | grep -E '^\d') > ../../combined.csv
-cd ../../
-```
-
-### run
-``` sh
-# in the project root directory, check that combined.csv is present
-# then run the script
-time node index.js | python -m json.tool > combined.json
-```
-
-### view
-``` sh
-# install a json viewer
-#   https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en)
-# open in chrome
-open -a /Applications/Google\ Chrome.app ./combined.json
-
-# pretty print results
-cat combined.json | python -m json.tool | more
-```
 
 ## How to get and prepare source files (timesheets) for the script above
 * get access to s3 (ask aaron)
 * login via creds to the `presencelearning-uploads-dev` bucket
-* download learning_timesheets.zip
-* crop the list to the "final" versions for each month (ask sandy)
-* export the sessionLog sheet from each month's .xlsx as .csv
-* name the files with a number sequence prefix that matches chronological order (2016-01.csv, 2016-02.csv, etc);
-* concat in time order the month files → combined.csv (see install section above)
-* run script (see run section above)
-* view output (see view section above)
+* download and unzip learning_timesheets.zip
+* for each .xlsx file
+   * open and select the SessionLog tab
+   * delete the first row (column headers)
+   * format the first column (date format: YYYY-MM-DD HH:MM:SS)
+   * save/export as .csv file
+* only export files with proper date-time data in the Date column
+   * some old (early 2013) data is not usable
+
+## How does the run script work
+* concatenates the csv files into combined.csv at the project root
+* sorts combined.csv on the first column (date-time)
+* adds column header names as a row to the beginning of combined.csv
+* runs the node script to process the rates and rate changes
+* outputs combined.json and prints a summary

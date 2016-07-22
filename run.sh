@@ -20,8 +20,8 @@ echo "" &&  echo "→ Adding column headers"
 time echo -e "${_HEADER}\n$(cat combined.csv)" > combined.csv
 
 _ETA=$(( _NUM_ROWS / 18700 ))
-echo "" && echo "→ Processing ${_NUM_ROWS//[[:blank:]]/} records"
 
+echo "" && echo "→ Processing ${_NUM_ROWS//[[:blank:]]/} records"
 _COUNT=0
 while :;
 do
@@ -34,9 +34,6 @@ do
 done &
 trap "kill $!" EXIT  #Die with parent if we die prematurely
 time node --max-old-space-size=4096 index.js | python -m json.tool > combined.json
+echo "" && echo "→ Results" && head -6 combined.json | tail -3 && echo "" && echo "Done."
 kill $! && trap " " EXIT
-
-echo "" && echo "→ Results"
-head -6 combined.json | tail -3
-echo "" && echo "Done."
 
