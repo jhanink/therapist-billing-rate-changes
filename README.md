@@ -5,15 +5,14 @@
 npm install
 ```
 
-## Run the script
+## Run the script (equivalent of prepare, run, view sections below)
 
 ### run the sample script
 ``` sh
-# does the equivalent of the (prepare, run, view) sections below
 ./run.sh samples/2016
 ```
 
-## OR - run the steps manually
+## Manual steps
 
 ### prepare
 ``` sh
@@ -40,7 +39,7 @@ open -a /Applications/Google\ Chrome.app ./combined.json
 cat combined.json | python -m json.tool | more
 ```
 
-### How to get source files (timesheets)
+## How to get and prepare source files (timesheets) for the script above
 * get access to s3 (ask aaron)
 * login via creds to the `presencelearning-uploads-dev` bucket
 * download learning_timesheets.zip
