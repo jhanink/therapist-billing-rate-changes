@@ -5,10 +5,11 @@
 npm install
 ```
 
-## Run the script (equivalent of prepare, run, view sections below)
+## Run the script
 
 ### run the sample script
 ``` sh
+#(equivalent of prepare, run, view sections below)
 ./run.sh samples/2016
 ```
 
