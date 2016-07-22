@@ -5,7 +5,7 @@
 npm install
 ```
 
-## - Do it the easy way -
+## Run the script
 
 ### run the sample script
 ``` sh
@@ -13,7 +13,7 @@ npm install
 ./run.sh samples/2016
 ```
 
-## - Or do it manually -
+## OR - run the steps manually
 
 ### prepare
 ``` sh
