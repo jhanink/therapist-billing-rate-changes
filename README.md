@@ -9,7 +9,7 @@ npm install
 
 ### run the script using a subset of 2016 timesheet data
 ``` sh
-#(equivalent of prepare, run, view sections below)
+# equivalent of prepare, run, view sections below
 ./run.sh samples/2016
 ```
 
