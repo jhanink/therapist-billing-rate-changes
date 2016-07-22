@@ -1,9 +1,11 @@
-# therapist-billing-rate-changes
+# Therapist monthly billing timesheet report
 
 ### install
 ``` sh
 npm install
 ```
+
+## - Do it the easy way -
 
 ### run the sample script
 ``` sh
@@ -11,7 +13,7 @@ npm install
 ./run.sh samples/2016
 ```
 
-# OR - do it manually
+## - Or do it manually -
 
 ### prepare
 ``` sh
