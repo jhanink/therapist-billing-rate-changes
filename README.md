@@ -27,6 +27,7 @@ $ ./run.sh work/learning_timesheets
 ## How does the run script work
 * concatenates the csv files into combined.csv at the project root
 * sorts combined.csv on the first column (date-time)
+   * and removes duplicates
 * adds column header names as a row to the beginning of combined.csv
 * runs the node script to process the rates and rate changes
 * outputs rates.json and prints a summary
