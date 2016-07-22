@@ -46,7 +46,7 @@ cat combined.json | python -m json.tool | more
 * download learning_timesheets.zip
 * crop the list to the "final" versions for each month (ask sandy)
 * export the sessionLog sheet from each month's .xlsx as .csv
-* name the files with a number sequence prefix that matches chronological order (001-, 002-, etc);
+* name the files with a number sequence prefix that matches chronological order (2016-01.csv, 2016-02.csv, etc);
 * concat in time order the month files → combined.csv (see install section above)
 * run script (see run section above)
 * view output (see view section above)
