@@ -3,6 +3,18 @@
 ### install
 ``` sh
 npm install
+```
+
+### run the sample script
+``` sh
+# does the equivalent of the (prepare, run, view) sections below
+./run.sh samples/2016
+```
+
+# OR - do it manually
+
+### prepare
+``` sh
 cd samples/2016
 cat $(ls -a | grep -E '^\d') > ../../combined.csv
 cd ../../
@@ -32,6 +44,7 @@ cat combined.json | python -m json.tool | more
 * download learning_timesheets.zip
 * crop the list to the "final" versions for each month (ask sandy)
 * export the sessionLog sheet from each month's .xlsx as .csv
+* name the files with a number sequence prefix that matches chronological order (001-, 002-, etc);
 * concat in time order the month files → combined.csv (see install section above)
 * run script (see run section above)
 * view output (see view section above)
