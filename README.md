@@ -9,9 +9,8 @@ npm install
 
 ### specify the directory holding the csv files
 ``` sh
-./run.sh work/learning_timesheets
+$ ./run.sh work/learning_timesheets
 ```
-
 
 ## How to get and prepare source files (timesheets) for the script above
 * get access to s3 (ask aaron)
@@ -35,8 +34,6 @@ npm install
 ## Sample run output
 
 ``` sh
-./run.sh work/learning_timesheets
-
 → Combining 133 files
 → Sorting combined file (2816853 records)
 
