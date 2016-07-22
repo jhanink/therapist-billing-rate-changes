@@ -34,6 +34,6 @@ do
 done &
 trap "kill $!" EXIT  #Die with parent if we die prematurely
 time node --max-old-space-size=4096 index.js | python -m json.tool > combined.json
-echo "" && echo "→ Results" && head -6 combined.json | tail -3 && echo "" && echo "Done."
+echo "" && echo "→ Results" && head -7 combined.json | tail -4 && echo "" && echo "Done."
 kill $! && trap " " EXIT
 

@@ -58,6 +58,7 @@ sys  0m4.473s
 
 → Results
     "numRecords": 1862011,
+    "numRecordsWithoutSfId": 80578,
     "numTherapists": 879,
     "numTherapistsWithRateChanges": 496
 

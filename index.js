@@ -1,9 +1,13 @@
 const fs = require('fs'), csv = require('fast-csv'), moment = require('moment');
 const stream = fs.createReadStream("combined.csv");
-let therapists={},therapistsWithRateChanges={}, numRecords=0;
+let therapists={},therapistsWithRateChanges={}, numRecords=0, numRecordsWithoutSfId=0;
 csv.fromStream(stream, {headers:true})
   .on("data", function(data) {
     let sf_id = data.TherapistSalesforceId, therapist = therapists[data.TherapistSalesforceId];
+    if (!sf_id) {
+      numRecordsWithoutSfId++;
+      return;
+    }
     let name = `${data.TherapistFirst} ${data.TherapistLast}`;
     if (sf_id === 'TherapistSalesforceId') {/*header row*/return} else {numRecords++}
     let rates = therapists[sf_id] = therapist?therapist:[];
@@ -24,6 +28,7 @@ csv.fromStream(stream, {headers:true})
           numTherapistsWithRateChanges: Object.keys(therapistsWithRateChanges).length,
           numTherapists: Object.keys(therapists).length,
           numRecords: numRecords,
+          numRecordsWithoutSfId: numRecordsWithoutSfId,
         },
         values: {
           therapistsWithRateChanges: therapistsWithRateChanges,
