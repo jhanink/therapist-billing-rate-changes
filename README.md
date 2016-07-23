@@ -9,7 +9,7 @@ npm install
 
 ### specify the directory holding the csv files
 ``` sh
-$ ./run.sh work/learning_timesheets
+$ time ./run.sh work/learning_timesheets
 ```
 
 ## How to get and prepare source files (timesheets) for the script above
@@ -35,33 +35,41 @@ $ ./run.sh work/learning_timesheets
 ## Sample run progress and summary
 
 ``` sh
-→ Combining 133 files
-→ Sorting combined file (2816853 records)
 
-real  2m58.698s
-user  2m56.113s
-sys  0m2.264s
+→ Combining 118 files
+→ Sorting combined file (2463782 records)
 
-→ Adding column headers
+real  2m18.510s
+user  2m17.428s
+ sys  0m1.054s
 
-real  1m6.874s
-user  0m57.510s
-sys  0m11.393s
-
-→ Processing 2816853 records
+→ Processing 2463782 records
 ............................................................
-............................................................
-............................................................
-.........................
-real  3m25.178s
-user  3m21.467s
-sys  0m4.473s
+...............
+
+real  1m14.768s
+user  1m14.748s
+ sys  0m1.121s
 
 → Results
-    "numRecords": 1862011,
-    "numRecordsWithoutSfId": 80578,
-    "numTherapists": 879,
-    "numTherapistsWithRateChanges": 496
+    "records": {
+      "recordsDiscarded": "254,611",
+        "recordsIncluded": "1,289,325",
+        "recordsTotal": "1,543,936"
+    },
+    "recordsDiscardedDetail": {
+      "numInvalidRateChanges": "6,026",
+      "numRecordsInvalidRateValue": "197,308",
+      "numRecordsWithoutSfId": "51,277"
+    },
+    "therapists": {
+      "numTherapists": 851,
+      "numTherapistsWithRateChanges": 115
+    }
 
 Done.
+
+real  3m35.423s
+user  3m33.004s
+ sys  0m3.447s
 ```

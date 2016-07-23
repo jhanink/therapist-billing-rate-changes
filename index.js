@@ -1,8 +1,8 @@
 const fs = require('fs'), csv = require('fast-csv'), moment = require('moment');
 const stream = fs.createReadStream("combined.csv");
 let therapists={},therapistsWithRateChanges={};
-let numRecords=0, numRecordsProcessed=0, numRecordsWithoutSfId=0, numRecordsInvalidRateValue=0;
-let badData = {missingSfId:[],invalidRates:[]};
+let numRecords=0, numRecordsProcessed=0, numRecordsWithoutSfId=0, numRecordsInvalidRateValue=0;numInvalidRateChanges=0;
+let badData = {missingSfId:[],invalidRates:[],rateChangeWithinBillingPeriod:[]};
 csv.fromStream(stream, {headers: false})
   .on("data", function(data) {
     let date = data[0]; /*Date*/
@@ -15,7 +15,7 @@ csv.fromStream(stream, {headers: false})
     // Validate
     if (!sf_id) { /*missing salesforce id*/
       numRecordsWithoutSfId++;
-      badData.missingSfId.push(`${date}  ${numRecords}`);
+      badData.missingSfId.push(`${date} row:${numRecords}`);
       return;
     }
 
@@ -25,22 +25,28 @@ csv.fromStream(stream, {headers: false})
 
     if (!validRate(therapistRate)){
       numRecordsInvalidRateValue++;
-      badData.invalidRates.push(`${date}  ${numRecords}`);
+      badData.invalidRates.push(`${date} row:${numRecords}`);
       return;
     }
 
     // Process
-    numRecordsProcessed++;
     let rates = therapists[sf_id] = therapist?therapist:[];
     let prevRate = rates.slice(-1)[0];
     if (!rates.length || (prevRate && prevRate.rate !== therapistRate)) {
       const dateNormalized = moment(date, 'YYYY-MM-DD').subtract(1,'months').endOf('month').format('YYYY-MM-DD');
-      rates.push({start:dateNormalized, end:null, rate:therapistRate});
+      if (prevRate && dateNormalized === prevRate.start) {
+        // unexpected rate change within billing period
+        badData.rateChangeWithinBillingPeriod.push(`${date} sf_id:${sf_id} CUR - row:${numRecords} rate:${therapistRate} PREV - row:${prevRate.row} rate:${prevRate.rate}` );
+        numInvalidRateChanges++;
+        return;
+      }
+      rates.push({start:dateNormalized, end:null, rate:therapistRate, row: numRecords});
       if (prevRate) {
         prevRate.end = dateNormalized;
         therapistsWithRateChanges[`${sf_id}`] = rates;
       }
     }
+    numRecordsProcessed++;
   })
 
   // Output
@@ -60,12 +66,13 @@ csv.fromStream(stream, {headers: false})
           recordsDiscardedDetail: {
             numRecordsWithoutSfId: numRecordsWithoutSfId.toLocaleString(),
             numRecordsInvalidRateValue: numRecordsInvalidRateValue.toLocaleString(),
+            numInvalidRateChanges: numInvalidRateChanges.toLocaleString(),
           }
         },
         values: {
           allTherapists: therapists,
           therapistsWithRateChanges,
-          badDataSample: badData,
+          badData,
         },
       }
     }));
