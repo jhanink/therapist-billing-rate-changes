@@ -9,7 +9,7 @@ npm install
 
 ### specify the directory holding the csv files
 ``` sh
-$ time ./run.sh work/learning_timesheets
+$ ./run.sh work/learning_timesheets
 ```
 
 ## How to get and prepare source files (timesheets) for the script above
@@ -59,17 +59,13 @@ user  1m14.748s
     },
     "recordsDiscardedDetail": {
       "numInvalidRateChanges": "6,026",
-      "numRecordsInvalidRateValue": "197,308",
-      "numRecordsWithoutSfId": "51,277"
+      "numInvalidRateValue": "197,308",
+      "numMissingSfId": "51,277"
     },
     "therapists": {
-      "numTherapists": 851,
+      "numTherapistsTotal": 851,
       "numTherapistsWithRateChanges": 115
     }
 
 Done.
-
-real  3m35.423s
-user  3m33.004s
- sys  0m3.447s
-```
+``

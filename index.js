@@ -1,7 +1,7 @@
 const fs = require('fs'), csv = require('fast-csv'), moment = require('moment');
 const stream = fs.createReadStream("combined.csv");
 let therapists={},therapistsWithRateChanges={};
-let numRecords=0, numRecordsProcessed=0, numRecordsWithoutSfId=0, numRecordsInvalidRateValue=0;numInvalidRateChanges=0;
+let numRecords=0, numRecordsProcessed=0, numMissingSfId=0, numInvalidRateValue=0;numInvalidRateChanges=0;
 let badData = {missingSfId:[],invalidRates:[],rateChangeWithinBillingPeriod:[]};
 csv.fromStream(stream, {headers: false})
   .on("data", function(data) {
@@ -14,7 +14,7 @@ csv.fromStream(stream, {headers: false})
 
     // Validate
     if (!sf_id) { /*missing salesforce id*/
-      numRecordsWithoutSfId++;
+      numMissingSfId++;
       badData.missingSfId.push(`${date} row:${numRecords}`);
       return;
     }
@@ -24,7 +24,7 @@ csv.fromStream(stream, {headers: false})
     }
 
     if (!validRate(therapistRate)){
-      numRecordsInvalidRateValue++;
+      numInvalidRateValue++;
       badData.invalidRates.push(`${date} row:${numRecords}`);
       return;
     }
@@ -56,7 +56,7 @@ csv.fromStream(stream, {headers: false})
         summary: {
           therapists: {
             numTherapistsWithRateChanges: Object.keys(therapistsWithRateChanges).length,
-            numTherapists: Object.keys(therapists).length,
+            numTherapistsTotal: Object.keys(therapists).length,
           },
           records: {
             recordsTotal: numRecords.toLocaleString(),
@@ -64,8 +64,8 @@ csv.fromStream(stream, {headers: false})
             recordsDiscarded: (numRecords - numRecordsProcessed).toLocaleString(),
           },
           recordsDiscardedDetail: {
-            numRecordsWithoutSfId: numRecordsWithoutSfId.toLocaleString(),
-            numRecordsInvalidRateValue: numRecordsInvalidRateValue.toLocaleString(),
+            numMissingSfId: numMissingSfId.toLocaleString(),
+            numInvalidRateValue: numInvalidRateValue.toLocaleString(),
             numInvalidRateChanges: numInvalidRateChanges.toLocaleString(),
           }
         },
