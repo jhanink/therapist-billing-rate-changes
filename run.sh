@@ -16,9 +16,6 @@ _NUM_ROWS=$(wc -l < combined.csv)
 echo "→ Sorting combined file (${_NUM_ROWS//[[:blank:]]/} records)"
 time sort -u --field-separator=',' --key=1 combined.csv -o combined.csv
 
-echo "" &&  echo "→ Adding column headers"
-time echo -e "${_HEADER}\n$(cat combined.csv)" > combined.csv
-
 _ETA=$(( _NUM_ROWS / 18700 ))
 
 echo "" && echo "→ Processing ${_NUM_ROWS//[[:blank:]]/} records"
