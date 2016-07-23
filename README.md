@@ -54,8 +54,8 @@ user  1m14.748s
 → Results
     "records": {
       "recordsDiscarded": "254,611",
-        "recordsIncluded": "1,289,325",
-        "recordsTotal": "1,543,936"
+      "recordsIncluded": "1,289,325",
+      "recordsTotal": "1,543,936"
     },
     "recordsDiscardedDetail": {
       "numInvalidRateChanges": "6,026",
