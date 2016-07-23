@@ -1,16 +1,36 @@
 const fs = require('fs'), csv = require('fast-csv'), moment = require('moment');
 const stream = fs.createReadStream("combined.csv");
-let therapists={},therapistsWithRateChanges={}, numRecords=0, numRecordsWithoutSfId=0;
+let therapists={},therapistsWithRateChanges={};
+let numRecords=0, numRecordsProcessed=0, numRecordsWithoutSfId=0, numRecordsInvalidRateValue=0;
+let badData = {missingSfId:[],invalidRates:[]};
 csv.fromStream(stream, {headers: false})
   .on("data", function(data) {
     let date = data[0]; /*Date*/
     let sf_id = data[5]; /*TherapistSalesforceId*/
-    let name = `${data[6]} ${data[7]}`; /*TherapisFirst, TherapistLast*/
+    let name = `${data[6]} ${data[7]}`; /*TherapistFirst, TherapistLast*/
     let therapistRate = data[28]; /*TherapistRate*/
     let therapist = therapists[sf_id];
-    if (!sf_id) { numRecordsWithoutSfId++; return; } /*unusable records*/
-
     numRecords++;
+
+    // Validate
+    if (!sf_id) { /*missing salesforce id*/
+      numRecordsWithoutSfId++;
+      badData.missingSfId.push(`${date}  ${numRecords}`);
+      return;
+    }
+
+    function validRate(value) {
+      return value.charAt(0) === '$' && value !== '$0.00';
+    }
+
+    if (!validRate(therapistRate)){
+      numRecordsInvalidRateValue++;
+      badData.invalidRates.push(`${date}  ${numRecords}`);
+      return;
+    }
+
+    // Process
+    numRecordsProcessed++;
     let rates = therapists[sf_id] = therapist?therapist:[];
     let prevRate = rates.slice(-1)[0];
     if (!rates.length || (prevRate && prevRate.rate !== therapistRate)) {
@@ -18,23 +38,35 @@ csv.fromStream(stream, {headers: false})
       rates.push({start:dateNormalized, end:null, rate:therapistRate});
       if (prevRate) {
         prevRate.end = dateNormalized;
-        therapistsWithRateChanges[`${name} - ${sf_id}`] = rates;
+        therapistsWithRateChanges[`${sf_id}`] = rates;
       }
     }
   })
+
+  // Output
   .on("end", function(data) {
     console.log(JSON.stringify({
       results: {
         summary: {
-          numTherapistsWithRateChanges: Object.keys(therapistsWithRateChanges).length,
-          numTherapists: Object.keys(therapists).length,
-          numRecords: numRecords,
-          numRecordsWithoutSfId: numRecordsWithoutSfId,
+          therapists: {
+            numTherapistsWithRateChanges: Object.keys(therapistsWithRateChanges).length,
+            numTherapists: Object.keys(therapists).length,
+          },
+          records: {
+            recordsTotal: numRecords.toLocaleString(),
+            recordsIncluded: numRecordsProcessed.toLocaleString(),
+            recordsDiscarded: (numRecords - numRecordsProcessed).toLocaleString(),
+          },
+          recordsDiscardedDetail: {
+            numRecordsWithoutSfId: numRecordsWithoutSfId.toLocaleString(),
+            numRecordsInvalidRateValue: numRecordsInvalidRateValue.toLocaleString(),
+          }
         },
         values: {
-          therapistsWithRateChanges: therapistsWithRateChanges,
           allTherapists: therapists,
-        }
+          therapistsWithRateChanges,
+          badDataSample: badData,
+        },
       }
     }));
   });

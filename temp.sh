@@ -7,14 +7,14 @@ echo ""
 cd $_DIR
 _NUM_FILES=$(ls *.csv | wc -l)
 echo "→ Combining ${_NUM_FILES//[[:blank:]]/} files"
-find . -name '*.csv' -exec cat {} > $_PWD/combined.csv \;
 cd $_PWD
 
 _NUM_ROWS=$(wc -l < combined.csv)
 
 # sort date format YYYY-MM-DD HH:MM:SS
 echo "→ Sorting combined file (${_NUM_ROWS//[[:blank:]]/} records)"
-time sort -u --field-separator=',' --key=1 combined.csv -o combined.csv
+
+echo "" &&  echo "→ Adding column headers"
 
 _ETA=$(( _NUM_ROWS / 18700 ))
 
@@ -30,7 +30,7 @@ do
   _COUNT=$((_COUNT + 1));
 done &
 trap "kill $!" EXIT  #Die with parent if we die prematurely
-time node --max-old-space-size=4096 index.js | python -m json.tool > rates.json
-echo "" && echo "→ Results" && head -16 rates.json | tail -13 && echo "" && echo "Done."
+time node --max-old-space-size=4096 index.js | python -m json.tool > temp.json
+echo "" && echo "→ Results" && head -16 temp.json | tail -13 && echo "" && echo "Done."
 kill $! && trap " " EXIT
 
