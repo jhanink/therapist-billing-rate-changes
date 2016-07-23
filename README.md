@@ -32,7 +32,7 @@ $ ./run.sh work/learning_timesheets
 * runs the node script to process the rates and rate changes
 * outputs rates.json and prints a summary
 
-## Sample run output
+## Sample run progress and summary
 
 ``` sh
 → Combining 133 files
