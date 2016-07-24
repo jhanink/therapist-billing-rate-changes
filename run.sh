@@ -13,12 +13,12 @@ cd $_PWD
 _NUM_ROWS=$(wc -l < combined.csv)
 
 # sort date format YYYY-MM-DD HH:MM:SS
-echo "→ Sorting combined file (${_NUM_ROWS//[[:blank:]]/} records)"
+echo "→ Sorting combined file and removing duplicates (${_NUM_ROWS//[[:blank:]]/} records)"
 time sort -u --field-separator=',' --key=1 combined.csv -o combined.csv
 
-_ETA=$(( _NUM_ROWS / 18700 ))
+_NUM_ROWS=$(wc -l < combined.csv)
 
-echo "" && echo "→ Processing ${_NUM_ROWS//[[:blank:]]/} records"
+echo "" && echo "→ Processing data (${_NUM_ROWS//[[:blank:]]/} rows)"
 _COUNT=0
 while :;
 do

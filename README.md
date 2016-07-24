@@ -35,37 +35,37 @@ $ ./run.sh work/learning_timesheets
 ## Sample run progress and summary
 
 ``` sh
-
 → Combining 118 files
-→ Sorting combined file (2463782 records)
+→ Sorting combined file and removing duplicates (2463782 records)
 
-real  2m18.510s
-user  2m17.428s
- sys  0m1.054s
+  real  2m17.927s
+  user  2m16.838s
+   sys  0m1.049s
 
-→ Processing 2463782 records
+→ Processing data (1543936 rows)
 ............................................................
-...............
+................
 
-real  1m14.768s
-user  1m14.748s
- sys  0m1.121s
+  real  1m15.857s
+  user  1m15.688s
+   sys  0m0.818s
 
 → Results
-    "records": {
-      "recordsDiscarded": "254,611",
-      "recordsIncluded": "1,289,325",
-      "recordsTotal": "1,543,936"
-    },
-    "recordsDiscardedDetail": {
-      "numInvalidRateChanges": "6,026",
-      "numInvalidRateValue": "197,308",
-      "numMissingSfId": "51,277"
-    },
-    "therapists": {
-      "numTherapistsTotal": 851,
-      "numTherapistsWithRateChanges": 115
-    }
+  "records": {
+    "numAccepted": "1,289,325",
+    "numDiscarded": "254,611",
+    "numTotal": "1,543,936"
+  },
+  "recordsDiscardedDetail": {
+    "numInvalidRateChanges": "6,026",
+    "numInvalidRateValue": "197,308",
+    "numMissingSfId": "51,277"
+  },
+  "therapists": {
+    "numRateChanges": 115,
+    "numTotal": 851
+  }
 
 Done.
+
 ```

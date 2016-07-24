@@ -55,13 +55,13 @@ csv.fromStream(stream, {headers: false})
       results: {
         summary: {
           therapists: {
-            numTherapistsWithRateChanges: Object.keys(therapistsWithRateChanges).length,
-            numTherapistsTotal: Object.keys(therapists).length,
+            numRateChanges: Object.keys(therapistsWithRateChanges).length,
+            numTotal: Object.keys(therapists).length,
           },
           records: {
-            recordsTotal: numRecords.toLocaleString(),
-            recordsIncluded: numRecordsProcessed.toLocaleString(),
-            recordsDiscarded: (numRecords - numRecordsProcessed).toLocaleString(),
+            numTotal: numRecords.toLocaleString(),
+            numAccepted: numRecordsProcessed.toLocaleString(),
+            numDiscarded: (numRecords - numRecordsProcessed).toLocaleString(),
           },
           recordsDiscardedDetail: {
             numMissingSfId: numMissingSfId.toLocaleString(),
@@ -70,7 +70,7 @@ csv.fromStream(stream, {headers: false})
           }
         },
         values: {
-          allTherapists: therapists,
+          therapistsAll: therapists,
           therapistsWithRateChanges,
           badData,
         },
